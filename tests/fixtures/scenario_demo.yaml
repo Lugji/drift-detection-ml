@@ -1,0 +1,20 @@
+scenario_id: demo
+seed: 42
+window_count: 5
+window_size: 200
+output_format: csv
+events:
+  - event_id: weight_shift
+    drift_type: numeric_shift
+    start_window: 2
+    features: [weight]
+    intensity:
+      mean_shift: 5.0
+
+  - event_id: unit_newcat
+    drift_type: new_category
+    start_window: 3
+    features: [unit_type]
+    intensity:
+      category: "80"
+      rate: 0.4

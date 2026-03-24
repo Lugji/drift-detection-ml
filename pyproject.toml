@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "driftdetect"
+version = "0.2.0"
+description = "Data drift detection, simulation and coverage reporting"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "scipy>=1.11",
+    "pyarrow>=13.0",
+    "pyyaml>=6.0",
+    "typer>=0.9",
+    "pydantic>=2.0",
+    "jinja2>=3.1",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+dashboard = ["streamlit>=1.35", "plotly>=5.0"]
+dev = ["pytest>=7.4", "pytest-cov", "ruff", "mypy"]
+
+[project.scripts]
+driftdetect = "driftdetect.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["driftdetect*"]

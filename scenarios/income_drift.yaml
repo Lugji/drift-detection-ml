@@ -1,0 +1,58 @@
+# Income Drift Scenario
+#
+# Simulates realistic distribution shifts in a demographic/income dataset,
+# mirroring changes that might occur between model training and deployment
+# (e.g., post-pandemic labour market shifts, emergence of new job categories).
+#
+# Dataset: income-themed synthetic data (age, income, hours_per_week,
+#          education_num, occupation, marital_status)
+#
+# Structure: 12 windows total
+#   - Windows 0-3:  clean baseline (no drift)
+#   - Windows 4-7:  gradual income shift (post-pandemic wage growth)
+#   - Windows 6-11: abrupt new occupation category (remote/gig economy)
+#   - Windows 8-11: variance drift on hours_per_week (remote work flexibility)
+
+scenario_id: income_drift
+dataset: income          # use income-themed base generator
+seed: 1234
+window_count: 12
+window_size: 600
+output_format: csv
+
+events:
+
+  # Event 1: Gradual income shift
+  # Models post-pandemic wage growth — mean income drifts upward over 4 windows.
+  # Gradual mode: detector should catch it but with higher TTD than abrupt drift.
+  - event_id: income_gradual_shift
+    drift_type: numeric_shift
+    start_window: 4
+    features: [income]
+    intensity:
+      mean_shift: 18000.0   # +18k at full strength
+      mode: gradual
+      ramp_windows: 4       # reaches full shift at window 8
+
+  # Event 2: Abrupt new occupation category
+  # Models the emergence of "Gig_Economy" as a new job category
+  # (e.g., platform workers, remote freelancers) not present in training data.
+  # JSD should spike to ~1.0 immediately — tests new_category detection.
+  - event_id: new_occupation_category
+    drift_type: new_category
+    start_window: 6
+    features: [occupation]
+    intensity:
+      category: Gig_Economy
+      rate: 0.25            # 25% of rows get the new category
+
+  # Event 3: Variance drift on hours_per_week
+  # Models the shift to remote/flexible work — same average hours but
+  # much higher variance (some people work 20h, others 70h).
+  # Tests whether variance drift is caught independently of mean shift.
+  - event_id: hours_variance_drift
+    drift_type: variance_shift
+    start_window: 8
+    features: [hours_per_week]
+    intensity:
+      std_mult: 2.2         # variance more than doubles

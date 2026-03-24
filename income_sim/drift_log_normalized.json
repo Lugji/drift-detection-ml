@@ -1,0 +1,50 @@
+[
+  {
+    "event_id": "income_gradual_shift",
+    "type": "numeric_shift",
+    "start_window": 4,
+    "affected_features": [
+      "income"
+    ],
+    "intensity": {
+      "mean_shift": 18000.0,
+      "mode": "gradual",
+      "ramp_windows": 4
+    },
+    "onset": 4,
+    "features": [
+      "income"
+    ]
+  },
+  {
+    "event_id": "new_occupation_category",
+    "type": "new_category",
+    "start_window": 6,
+    "affected_features": [
+      "occupation"
+    ],
+    "intensity": {
+      "category": "Gig_Economy",
+      "rate": 0.25
+    },
+    "onset": 6,
+    "features": [
+      "occupation"
+    ]
+  },
+  {
+    "event_id": "hours_variance_drift",
+    "type": "variance_shift",
+    "start_window": 8,
+    "affected_features": [
+      "hours_per_week"
+    ],
+    "intensity": {
+      "std_mult": 2.2
+    },
+    "onset": 8,
+    "features": [
+      "hours_per_week"
+    ]
+  }
+]

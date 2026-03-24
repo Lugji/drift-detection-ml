@@ -1,0 +1,39 @@
+scenario_id: demo_v2
+seed: 123
+window_count: 8
+window_size: 300
+output_format: csv
+
+events:
+  # Numeric mean drift on weight starting at window 2
+  - event_id: weight_mean_shift
+    drift_type: numeric_shift
+    start_window: 2
+    features: [weight]
+    intensity:
+      mean_shift: 4.0
+
+  # Missingness drift on price starting at window 3
+  - event_id: price_missingness
+    drift_type: missingness
+    start_window: 3
+    features: [price]
+    intensity:
+      missing_rate: 0.25
+
+  # New category injection on unit_type starting at window 4
+  - event_id: unit_new_category
+    drift_type: new_category
+    start_window: 4
+    features: [unit_type]
+    intensity:
+      category: 80
+      rate: 0.35
+
+  # Variance drift on weight starting at window 6
+  - event_id: weight_variance_shift
+    drift_type: variance_shift
+    start_window: 6
+    features: [weight]
+    intensity:
+      std_mult: 2.5
