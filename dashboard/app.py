@@ -381,16 +381,46 @@ with tabs[0]:
                         st.info("No sample values stored. Re-run detect to populate window_sample.")
 
                 elif dtype == "categorical":
-                    # her JSON: baseline_feat.freq, old code used "frequencies"
-                    base_freqs = baseline_feat.get("freq") or baseline_feat.get("frequencies") or {}
-                    window_cats  = feat_info.get("window_sample")   # None for categorical
-                    if base_freqs:
-                        df_cat = pd.DataFrame(
-                            [{"Category": k, "Baseline freq": v} for k, v in base_freqs.items()]
-                        ).sort_values("Baseline freq", ascending=False)
-                        st.bar_chart(df_cat.set_index("Category"))
+                    base_freqs   = baseline_feat.get("freq") or baseline_feat.get("frequencies") or {}
+                    window_freqs = (feat_info.get("current_summary") or {}).get("freq") or {}
+
+                    if base_freqs or window_freqs:
+                        # Build combined DataFrame with all categories from both
+                        all_cats = sorted(set(list(base_freqs.keys()) + list(window_freqs.keys())))
+                        df_cat = pd.DataFrame({
+                            "Category":       all_cats,
+                            "Baseline":       [base_freqs.get(c, 0.0)   for c in all_cats],
+                            "Current window": [window_freqs.get(c, 0.0) for c in all_cats],
+                        }).sort_values("Baseline", ascending=False)
+
+                        try:
+                            import plotly.graph_objects as go
+                            fig_cat = go.Figure()
+                            fig_cat.add_trace(go.Bar(
+                                x=df_cat["Category"], y=df_cat["Baseline"],
+                                name="Baseline", marker_color="#93c5fd", opacity=0.85,
+                            ))
+                            fig_cat.add_trace(go.Bar(
+                                x=df_cat["Category"], y=df_cat["Current window"],
+                                name="Current window", marker_color="#f97316", opacity=0.85,
+                            ))
+                            fig_cat.update_layout(
+                                barmode="group",
+                                title=dict(text=f"<b>{selected_feature}</b> category frequencies",
+                                           font=dict(size=14)),
+                                xaxis_title="Category",
+                                yaxis_title="Proportion",
+                                plot_bgcolor="white",
+                                paper_bgcolor="white",
+                                legend=dict(orientation="h", y=1.12),
+                                height=300,
+                                margin=dict(l=40, r=20, t=50, b=60),
+                            )
+                            st.plotly_chart(fig_cat, use_container_width=True)
+                        except ImportError:
+                            st.bar_chart(df_cat.set_index("Category")[["Baseline", "Current window"]])
                     else:
-                        st.info("No categorical frequency data in baseline.")
+                        st.info("No categorical frequency data available.")
 
             with col_stats:
                 st.markdown("**Baseline**")
