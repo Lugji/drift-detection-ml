@@ -497,22 +497,28 @@ with tabs[1]:
         st.info("No coverage.json found. Run `driftdetect coverage` first.")
     else:
         meta = cov_data.get("metadata", {})
-        st.caption(f"Suite: **{meta.get('suite_id','—')}** | "
-                   f"Tolerance M = {meta.get('tolerance_m','—')} windows | "
+        _metrics = cov_data.get("metrics", {})
+        _M = meta.get("M", meta.get("tolerance_m", "—"))
+        st.caption(f"Suite: **{meta.get('scenario_id', meta.get('suite_id','—'))}** | "
+                   f"Tolerance M = {_M} windows | "
                    f"Config hash: `{meta.get('config_hash','—')}`")
 
-        # Top metrics
+        # Top metrics — support both old and new coverage.json formats
         c1, c2, c3, c4 = st.columns(4)
-        fpr  = cov_data.get("suite_fpr", 0.0)
-        ttd  = cov_data.get("ttd_stats") or {}
-        per  = cov_data.get("per_event_results", [])
+        _metrics = cov_data.get("metrics", {})
+        fpr    = _metrics.get("FPR") if _metrics else cov_data.get("suite_fpr", 0.0)
+        fpr    = fpr if fpr is not None else 0.0
+        ttd    = (_metrics.get("TTD_summary") or {}) if _metrics else (cov_data.get("ttd_stats") or {})
+        per    = cov_data.get("per_event", cov_data.get("per_event_results", []))
         missed = cov_data.get("missed_events", [])
-        power_vals = list(cov_data.get("power_by_type", {}).values())
-        avg_power = sum(power_vals) / len(power_vals) if power_vals else 0.0
+        power_by_type = _metrics.get("power_by_type", {}) if _metrics else cov_data.get("power_by_type", {})
+        power_overall = _metrics.get("power_overall") if _metrics else None
+        power_vals = list(power_by_type.values())
+        avg_power = power_overall if power_overall is not None else (sum(power_vals) / len(power_vals) if power_vals else 0.0)
 
         c1.metric("Suite FPR",   f"{fpr:.3f}",      help="False positive rate — lower is better")
         c2.metric("Avg Power",   f"{avg_power:.3f}", help="Mean detection power across drift types")
-        c3.metric("TTD mean",    f"{ttd.get('mean',0):.1f} w" if ttd else "—",
+        c3.metric("TTD mean",    f"{ttd.get('median', ttd.get('mean', 0)):.1f} w" if ttd and ttd.get('median') is not None else "—",
                   help="Mean time-to-detect in windows")
         c4.metric("Missed",      f"{len(missed)} / {len(per)}",
                   delta="all caught" if not missed else f"{len(missed)} missed",
@@ -522,7 +528,7 @@ with tabs[1]:
 
         # Power bar chart
         st.subheader("Detection Power by Drift Type")
-        power = cov_data.get("power_by_type", {})
+        power = power_by_type
         if power:
             try:
                 import plotly.graph_objects as go
@@ -570,7 +576,7 @@ with tabs[1]:
         # Missed events
         st.subheader("Missed Events")
         if missed:
-            st.error(f"{len(missed)} event(s) not detected within tolerance M = {meta.get('tolerance_m','?')}")
+            st.error(f"{len(missed)} event(s) not detected within tolerance M = {meta.get('M', meta.get('tolerance_m','?'))}")
             st.dataframe(pd.DataFrame(missed), use_container_width=True)
         else:
             st.success("All events detected within tolerance window.")
