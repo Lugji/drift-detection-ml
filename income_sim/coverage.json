@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "windows_total": 12,
+    "no_drift_windows": 4,
+    "drift_windows": 8,
+    "M": 3,
+    "note": "Coverage uses the global drift flag g(w_i). Overlapping events may inflate power for later events.",
+    "scenario_id": "income_drift",
+    "manifest_path": "/Users/dp/driftdetect_final/income_sim/manifest.json",
+    "drift_log_path": "/Users/dp/driftdetect_final/income_sim/drift_log.json",
+    "drifts_dir": "/Users/dp/driftdetect_final/income_sim/drifts"
+  },
+  "metrics": {
+    "FPR": 0.0,
+    "power_overall": 1.0,
+    "power_by_type": {
+      "new_category": 1.0,
+      "numeric_shift": 1.0,
+      "variance_shift": 1.0
+    },
+    "TTD_summary": {
+      "count_detected": 3,
+      "median": 0.0,
+      "p90": 1.6,
+      "max": 2.0
+    }
+  },
+  "per_event": [
+    {
+      "event_id": "income_gradual_shift",
+      "type": "numeric_shift",
+      "start_window": 4,
+      "affected_features": [
+        "income"
+      ],
+      "first_detection_window": 6,
+      "detected_within_M": true,
+      "TTD": 2,
+      "M": 3,
+      "intensity": {
+        "mean_shift": 18000.0,
+        "mode": "gradual",
+        "ramp_windows": 4
+      }
+    },
+    {
+      "event_id": "new_occupation_category",
+      "type": "new_category",
+      "start_window": 6,
+      "affected_features": [
+        "occupation"
+      ],
+      "first_detection_window": 6,
+      "detected_within_M": true,
+      "TTD": 0,
+      "M": 3,
+      "intensity": {
+        "category": "Gig_Economy",
+        "rate": 0.25
+      }
+    },
+    {
+      "event_id": "hours_variance_drift",
+      "type": "variance_shift",
+      "start_window": 8,
+      "affected_features": [
+        "hours_per_week"
+      ],
+      "first_detection_window": 8,
+      "detected_within_M": true,
+      "TTD": 0,
+      "M": 3,
+      "intensity": {
+        "std_mult": 2.2
+      }
+    }
+  ],
+  "missed_events": []
+}

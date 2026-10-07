@@ -1,0 +1,60 @@
+{
+  "scenario_id": "income_drift",
+  "seed": 1234,
+  "window_count": 12,
+  "window_size": 600,
+  "output_format": "csv",
+  "dataset": "income",
+  "windows_dir": "windows",
+  "windows": [
+    {
+      "index": 0,
+      "path": "windows/window_000.csv"
+    },
+    {
+      "index": 1,
+      "path": "windows/window_001.csv"
+    },
+    {
+      "index": 2,
+      "path": "windows/window_002.csv"
+    },
+    {
+      "index": 3,
+      "path": "windows/window_003.csv"
+    },
+    {
+      "index": 4,
+      "path": "windows/window_004.csv"
+    },
+    {
+      "index": 5,
+      "path": "windows/window_005.csv"
+    },
+    {
+      "index": 6,
+      "path": "windows/window_006.csv"
+    },
+    {
+      "index": 7,
+      "path": "windows/window_007.csv"
+    },
+    {
+      "index": 8,
+      "path": "windows/window_008.csv"
+    },
+    {
+      "index": 9,
+      "path": "windows/window_009.csv"
+    },
+    {
+      "index": 10,
+      "path": "windows/window_010.csv"
+    },
+    {
+      "index": 11,
+      "path": "windows/window_011.csv"
+    }
+  ],
+  "drift_log_path": "drift_log.json"
+}

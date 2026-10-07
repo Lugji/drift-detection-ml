@@ -1,0 +1,79 @@
+{
+  "manifest_path": "/Users/dp/driftdetect_final/income_sim/manifest.json",
+  "drifts_dir": "income_sim/drifts",
+  "window_count": 12,
+  "drift_results": [
+    {
+      "index": 0,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_000.csv",
+      "drift_path": "income_sim/drifts/drift_000.json"
+    },
+    {
+      "index": 1,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_001.csv",
+      "drift_path": "income_sim/drifts/drift_001.json"
+    },
+    {
+      "index": 2,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_002.csv",
+      "drift_path": "income_sim/drifts/drift_002.json"
+    },
+    {
+      "index": 3,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_003.csv",
+      "drift_path": "income_sim/drifts/drift_003.json"
+    },
+    {
+      "index": 4,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_004.csv",
+      "drift_path": "income_sim/drifts/drift_004.json"
+    },
+    {
+      "index": 5,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_005.csv",
+      "drift_path": "income_sim/drifts/drift_005.json"
+    },
+    {
+      "index": 6,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_006.csv",
+      "drift_path": "income_sim/drifts/drift_006.json"
+    },
+    {
+      "index": 7,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_007.csv",
+      "drift_path": "income_sim/drifts/drift_007.json"
+    },
+    {
+      "index": 8,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_008.csv",
+      "drift_path": "income_sim/drifts/drift_008.json"
+    },
+    {
+      "index": 9,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_009.csv",
+      "drift_path": "income_sim/drifts/drift_009.json"
+    },
+    {
+      "index": 10,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_010.csv",
+      "drift_path": "income_sim/drifts/drift_010.json"
+    },
+    {
+      "index": 11,
+      "window_path": "/Users/dp/driftdetect_final/income_sim/windows/window_011.csv",
+      "drift_path": "income_sim/drifts/drift_011.json"
+    }
+  ],
+  "config": {
+    "alpha": 0.05,
+    "S_feat": 0.7,
+    "S_global": 0.7,
+    "K": 3,
+    "tau_wd": 1.0,
+    "tau_mu": 1.0,
+    "tau_sigma": 0.5,
+    "tau_miss": 0.1
+  },
+  "config_hash": "0fb05bae0ed9",
+  "drift_log_normalized_path": "/Users/dp/driftdetect_final/income_sim/drift_log_normalized.json"
+}

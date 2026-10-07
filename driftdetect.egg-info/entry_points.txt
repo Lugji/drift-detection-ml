@@ -1,0 +1,2 @@
+[console_scripts]
+driftdetect = driftdetect.cli:app

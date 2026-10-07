@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: driftdetect
+Version: 0.2.0
+Summary: Data drift detection, simulation and coverage reporting
+Requires-Python: >=3.10
+Requires-Dist: pandas>=2.0
+Requires-Dist: numpy>=1.24
+Requires-Dist: scipy>=1.11
+Requires-Dist: pyarrow>=13.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: typer>=0.9
+Requires-Dist: pydantic>=2.0
+Requires-Dist: jinja2>=3.1
+Requires-Dist: rich>=13.0
+Provides-Extra: dashboard
+Requires-Dist: streamlit>=1.35; extra == "dashboard"
+Requires-Dist: plotly>=5.0; extra == "dashboard"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
